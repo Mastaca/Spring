@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="productDAO" class = "com.emi.spring.pricecomparator.domain.dao.ProductDAOImpl">
+    </bean>
+
+    <bean id="externalService" class = "com.emi.spring.pricecomparator.external.ExternalServiceImpl">
+    </bean>
+
+    <bean id="priceComparatorService" class = "com.emi.spring.pricecomparator.domain.service.PriceComparatorServiceImpl">
+        <constructor-arg ref="productDAO" />
+        <constructor-arg ref="externalService" />
+    </bean>
+
+    <bean id="priceCompareFacade" class = "com.emi.spring.pricecomparator.facade.PriceCompareFacadeImpl">
+        <constructor-arg ref="priceComparatorService" />
+    </bean>
+
+    <bean id="productService" class = "com.emi.spring.pricecomparator.domain.service.ProductServiceImpl">
+        <constructor-arg ref="productDAO" />
+    </bean>
+
+    <bean id="priceUpdateFacade" class = "com.emi.spring.pricecomparator.facade.PriceUpdateFacadeImpl">
+        <constructor-arg ref="productService" />
+    </bean>
+
+    <bean id="productCreateFacade" class = "com.emi.spring.pricecomparator.facade.ProductCreateFacadeImpl">
+        <constructor-arg ref="productService" />
+    </bean>
+
+    <bean id="application" class="com.emi.spring.pricecomparator.Application">
+        <constructor-arg ref="priceCompareFacade" />
+        <constructor-arg ref="priceUpdateFacade" />
+        <constructor-arg ref="productCreateFacade" />
+        <constructor-arg ref="productService" />
+    </bean>
+
+    <!--<bean id="hibernateSessionConfiguration" class="com.emi.spring.pricecomparator.spring.HibernateSessionConfiguration"/>
+
+    <bean id="hibernateSessionFactory" class="org.hibernate.SessionFactory"
+          factory-bean="hibernateSessionConfiguration" factory-method="sessionFactory"/>
+
+    <bean id="productDAO" class="com.emi.spring.pricecomparator.domain.dao.ProductDAOImpl">
+        <constructor-arg ref="hibernateSessionFactory" />
+    </bean>
+
+    <bean id="externalService" class="com.emi.spring.pricecomparator.external.ExternalServiceImpl"/>
+
+    <bean id="priceComparatorService" class="com.emi.spring.pricecomparator.domain.service.PriceComparatorServiceImpl">
+        <constructor-arg name="sessionFactory" ref="hibernateSessionFactory" />
+        <constructor-arg name="productDAO" ref="productDAO" />
+        <constructor-arg name="externalService" ref="externalService" />
+    </bean>
+
+    <bean id="productService" class="com.emi.spring.pricecomparator.domain.service.ProductServiceImpl">
+        <constructor-arg name="sessionFactory" ref="hibernateSessionFactory" />
+        <constructor-arg name="productDAO" ref="productDAO" />
+    </bean>
+
+    <bean id="priceCompareFacade" class="com.emi.spring.pricecomparator.facade.PriceCompareFacadeImpl">
+        <constructor-arg ref="priceComparatorService"/>
+    </bean>
+
+    <bean id="priceUpdateFacade" class="com.emi.spring.pricecomparator.facade.PriceUpdateFacadeImpl">
+        <constructor-arg ref="productService"/>
+    </bean>
+
+    <bean id="application" class="com.emi.spring.pricecomparator.Application">
+        <constructor-arg name="priceCompareFacade" ref="priceCompareFacade" />
+        <constructor-arg name="priceUpdateFacade" ref="priceUpdateFacade" />
+    </bean>-->
+
+</beans>
